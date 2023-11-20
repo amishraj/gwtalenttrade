@@ -1,18 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:padding="16dp">
 
     <TextView
+        android:id="@+id/textViewAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to GW Talent Trade!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="GW Talent Trade"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/editTextSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewAppName"
+        android:layout_marginTop="15dp"
+        android:hint="Search services" />
+
+    <TextView
+        android:id="@+id/textViewCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextSearch"
+        android:text="Explore Categories"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <GridLayout
+        android:id="@+id/gridLayoutCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewCategories"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <!-- Category Card 1 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewBuySell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Card Contents -->
+            
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Category Card 2 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewTutoring"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Card Contents -->
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Category Card 3 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewRides"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp">
+
+            <!-- Card Contents -->
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Category Card 4 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewEvents"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp">
+
+            <!-- Card Contents -->
+
+        </androidx.cardview.widget.CardView>
+
+    </GridLayout>
+
+</RelativeLayout>

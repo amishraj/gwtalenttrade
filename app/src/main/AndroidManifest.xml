@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GWTalentTrade"
         tools:targetApi="31">
         <activity
+            android:name=".signIn"
+            android:exported="false" />
+        <activity
+            android:name=".firstPage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

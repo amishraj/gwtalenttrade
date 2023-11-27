@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1095202638780",
+    "project_id": "gw-talenttrade",
+    "storage_bucket": "gw-talenttrade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095202638780:android:7a2eb57f7412bfd54a39b9",
+        "android_client_info": {
+          "package_name": "com.example.gwtalenttrade"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD66-I5T80xYZ1Z1AtkTHJzLRs48MqPZ38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

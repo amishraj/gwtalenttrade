@@ -45,6 +45,18 @@ public class CreateAccount extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     ProgressBar progressBar;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        System.out.println(currentUser);
+        if(currentUser != null){
+            startActivity(new Intent(CreateAccount.this, MainActivity.class));
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +107,9 @@ public class CreateAccount extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(CreateAccount.this, "Account Created!",
                                                 Toast.LENGTH_SHORT).show();
+                                        FirebaseAuth.getInstance().signOut();
+                                        startActivity(new Intent(CreateAccount.this, firstPage.class));
+                                        finish();
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(CreateAccount.this, "Authentication failed.",

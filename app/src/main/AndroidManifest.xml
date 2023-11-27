@@ -16,6 +16,12 @@
             android:name=".CreateAccount"
             android:exported="false" />
         <activity
+            android:name=".signIn"
+            android:exported="false" />
+        <activity
+            android:name=".firstPage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

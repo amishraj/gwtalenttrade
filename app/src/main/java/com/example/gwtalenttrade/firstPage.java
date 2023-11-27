@@ -7,11 +7,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class firstPage extends AppCompatActivity {
 
     Button createAcc;
     Button signIn;
-
+    FirebaseAuth mAuth;
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        System.out.println(currentUser);
+        if(currentUser != null){
+            startActivity(new Intent(firstPage.this, MainActivity.class));
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +34,7 @@ public class firstPage extends AppCompatActivity {
         Button createAcc= findViewById(R.id.btnCreateAccount);
         Button signIn= findViewById(R.id.btnSignIn);
 
+        mAuth= FirebaseAuth.getInstance();
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

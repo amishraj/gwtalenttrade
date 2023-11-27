@@ -122,7 +122,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/tutor"
+                    android:src="@drawable/tutoring"
                     android:scaleType="fitCenter"/>
 
                 <!-- Text View for "Tutoring Services" -->
@@ -157,14 +157,14 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/bake"
+                    android:src="@drawable/homemade"
                     android:scaleType="fitCenter"/>
 
                 <!-- Text View for "Tutoring Services" -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Homemade Goods"
+                    android:text="Homemade Goods and Services"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="16dp"/> <!-- Adjust padding as needed -->
@@ -191,7 +191,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/cook"
+                    android:src="@drawable/foodservices"
                     android:scaleType="fitCenter"/>
 
                 <!-- Text View for "Tutoring Services" -->
@@ -226,7 +226,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/carpool"
+                    android:src="@drawable/carpooling"
                     android:scaleType="centerCrop"/>
 
                 <!-- Text View for "Tutoring Services" -->
@@ -296,7 +296,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/help"
+                    android:src="@drawable/misc"
                     android:scaleType="fitCenter"/>
 
                 <!-- Text View for "Tutoring Services" -->

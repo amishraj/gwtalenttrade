@@ -7,25 +7,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Button logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button goToCreateAcc = findViewById(R.id.createacc);
+        logoutBtn= findViewById(R.id.logoutBtn);
 
-        // Set a click listener for the button
-        goToCreateAcc.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Define the intent to navigate to the next activity
-                Intent intent = new Intent(MainActivity.this, CreateAccount.class);
-
-                // Start the new activity
-                startActivity(intent);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), firstPage.class));
+                finish();
             }
         });
+
     }
 }

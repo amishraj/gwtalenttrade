@@ -30,13 +30,6 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:id="@+id/createacc"
-        />
-
     <GridLayout
         android:id="@+id/gridLayoutCategories"
         android:layout_width="match_parent"
@@ -100,5 +93,17 @@
         </androidx.cardview.widget.CardView>
 
     </GridLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridLayoutCategories">
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"/>
+    </RelativeLayout>
 
 </RelativeLayout>

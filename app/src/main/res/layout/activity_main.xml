@@ -64,7 +64,7 @@
             android:padding="10px"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onTabClick"/>
+            android:onClick="onRecentClick"/>
 
         <!-- Explore All Tab -->
         <TextView
@@ -81,7 +81,7 @@
             android:padding="10px"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onTabClick"/>
+            android:onClick="onAllClick"/>
 
     </LinearLayout>
 

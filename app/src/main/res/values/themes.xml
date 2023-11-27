@@ -7,4 +7,11 @@
     </style>
 
     <style name="Theme.GWTalentTrade" parent="Base.Theme.GWTalentTrade" />
+    <style name="Theme.GWTalentTrade.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.GWTalentTrade.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GWTalentTrade.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

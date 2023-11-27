@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class createPost extends AppCompatActivity {
                         "\nCategory: " + category +
                         "\nDescription: " + description +
                         "\nContact Method: " + contactMethod;
+
 
                 Toast.makeText(createPost.this, postData, Toast.LENGTH_LONG).show();
             }

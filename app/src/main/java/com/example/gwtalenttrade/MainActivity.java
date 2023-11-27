@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private Button logoutBtn;
+    private TextView textViewExploreAll;
+    private TextView textViewRecentPosts;
     FirebaseUser user;
     TextView nameUser;
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn= findViewById(R.id.logoutBtn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         nameUser= findViewById(R.id.nameUser);
+        textViewExploreAll = findViewById(R.id.textViewExploreAll);
+        textViewRecentPosts= findViewById(R.id.textViewRecentPosts);
 
         if(user==null){
             startActivity(new Intent(getApplicationContext(), firstPage.class));
@@ -32,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         } else{
             nameUser.setText(user.getEmail());
         }
+
+        textViewExploreAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), Listings.class));
+            }
+        });
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

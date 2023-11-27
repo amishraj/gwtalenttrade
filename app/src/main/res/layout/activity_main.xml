@@ -12,11 +12,29 @@
         android:textSize="24sp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_below="@id/textViewAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, "
+        android:textSize="24sp"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/nameUser"
+        android:layout_toEndOf="@+id/welcome"
+        android:layout_below="@+id/textViewAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="italic"/>
+
     <EditText
         android:id="@+id/editTextSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewAppName"
+        android:layout_below="@id/welcome"
         android:layout_marginTop="15dp"
         android:hint="Search services" />
 

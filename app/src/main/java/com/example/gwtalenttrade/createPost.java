@@ -2,7 +2,6 @@ package com.example.gwtalenttrade;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class createPost extends AppCompatActivity {
 
-    private EditText editTextTitle, editTextOtherCategory, editTextDescription;
+    private EditText editTextTitle, editTextDescription;
     private Spinner categorySpinner;
     private RadioGroup radioGroupContact;
     private Button btnPost;
@@ -29,7 +28,6 @@ public class createPost extends AppCompatActivity {
         setContentView(R.layout.activity_create_post);
 
         editTextTitle = findViewById(R.id.editTextTitle);
-        editTextOtherCategory = findViewById(R.id.editTextOtherCategory);
         editTextDescription = findViewById(R.id.editTextDescription);
         categorySpinner = findViewById(R.id.categorySpinner);
         radioGroupContact = findViewById(R.id.radioGroupContact);
@@ -37,33 +35,17 @@ public class createPost extends AppCompatActivity {
 
         // Populate the spinner with categories
         List<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
+        categories.add("Tutoring Services");
+        categories.add("Homemade Goods and Crafts");
+        categories.add("Meal Plans and Food Services");
+        categories.add("Carpooling and Transportation");
+        categories.add("Sports and Fitness Services");
+        categories.add("Miscellaneous Services");
         // Add more categories as needed
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
-
-        // Set listener for category selection
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Show/hide the "Other" category field based on the selected category
-                String selectedCategory = (String) parentView.getItemAtPosition(position);
-                if ("Other".equals(selectedCategory)) {
-                    editTextOtherCategory.setVisibility(View.VISIBLE);
-                } else {
-                    editTextOtherCategory.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
-            }
-        });
 
         // Set listener for the "Post" button
         btnPost.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +54,6 @@ public class createPost extends AppCompatActivity {
                 // Collect data and handle the post action
                 String title = editTextTitle.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
-                if ("Other".equals(category)) {
-                    category = editTextOtherCategory.getText().toString();
-                }
                 String description = editTextDescription.getText().toString();
                 String contactMethod = getSelectedContactMethod();
 

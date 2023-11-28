@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +26,7 @@ public class createPost extends AppCompatActivity {
     private Spinner categorySpinner;
     private RadioGroup radioGroupContact;
     private Button btnPost;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class createPost extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
         radioGroupContact = findViewById(R.id.radioGroupContact);
         btnPost = findViewById(R.id.btnPost);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Populate the spinner with categories
         List<String> categories = new ArrayList<>();
@@ -59,15 +63,27 @@ public class createPost extends AppCompatActivity {
                 String category = categorySpinner.getSelectedItem().toString();
                 String description = editTextDescription.getText().toString();
                 String contactMethod = getSelectedContactMethod();
+                String postedBy= user.getEmail();
+
+                // Create a Post object
+                Post post = new Post(title, category, description, contactMethod, postedBy);
+
+                // Get a reference to your Firebase database
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("posts");
+
+                // Push the post object to the database
+                String postId = databaseReference.push().getKey(); // Get a unique key for the post
+                databaseReference.child(postId).setValue(post);
+
+                Toast.makeText(createPost.this, "Post submitted successfully", Toast.LENGTH_SHORT).show();
+
+                finish();
 
                 // Handle the post action (for now, just display a toast with the collected data)
                 String postData = "Title: " + title +
                         "\nCategory: " + category +
                         "\nDescription: " + description +
                         "\nContact Method: " + contactMethod;
-
-
-                Toast.makeText(createPost.this, postData, Toast.LENGTH_LONG).show();
             }
         });
     }

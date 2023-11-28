@@ -10,6 +10,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import android.view.View;
 import com.example.gwtalenttrade.databinding.ActivityListingsBinding;
 
@@ -21,6 +27,7 @@ public class Listings extends AppCompatActivity {
 private ActivityListingsBinding binding;
     private RecyclerView recyclerView;
     private PostingsAdapter postingsAdapter;
+    private DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +35,19 @@ private ActivityListingsBinding binding;
         binding = ActivityListingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         recyclerView = findViewById(R.id.recyclerView);
+        databaseReference = FirebaseDatabase.getInstance().getReference("posts");
 
         // Set layout manager (HorizontalLinearLayoutManager for horizontal scrolling)
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         // Set up data (Replace with your actual data)
-        List<Posting> postings = getPostings(); // Implement this method to fetch your data
-        postingsAdapter = new PostingsAdapter(postings);
+        //List<Posting> postings = getPostings(); // Implement this method to fetch your data
+        postingsAdapter = new PostingsAdapter(new ArrayList<>()); // Initialize with empty list
         recyclerView.setAdapter(postingsAdapter);
+
+        //postingsAdapter = new PostingsAdapter(postings);
+       // recyclerView.setAdapter(postingsAdapter);
 
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
@@ -47,21 +58,50 @@ private ActivityListingsBinding binding;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Create your own post here!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Create your own post here!", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
                 startActivity(new Intent(Listings.this, createPost.class));
             }
         });
+
+        readDataFromDatabase();
     }
 
-    // Method to get sample data (Replace with your actual data fetching logic)
-    private List<Posting> getPostings() {
-        List<Posting> postings = new ArrayList<>();
+    // Method to get data
+    private List<Post> getPostings() {
+        List<Post> posts = new ArrayList<>();
 
-        postings.add(new Posting("Job Title 1", "Description for Job 1", "Category 1"));
-        postings.add(new Posting("Job Title 2", "Description for Job 2", "Category 2"));
+        //posts.add(new Post("Job Title 1", "Description for Job 1", "Category 1"));
+        //posts.add(new Post("Job Title 2", "Description for Job 2", "Category 2"));
         // Add more postings as needed
 
-        return postings;
+        return posts;
+    }
+
+    // Method to read data from Firebase Database
+    private void readDataFromDatabase() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Post> posts = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    try {
+                        Post post = snapshot.getValue(Post.class);
+                        posts.add(post);
+                    } catch (Exception e) {
+                        System.err.println("Error parsing Posting from DataSnapshot: " + e.getMessage());
+                    }
+                }
+                // Update the adapter with the new data
+                postingsAdapter.setPostings(posts);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle errors, if any
+                Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 }

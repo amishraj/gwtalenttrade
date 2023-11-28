@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+  <TextView
+      android:id="@+id/textViewTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Create New Listing"
+      android:background="@drawable/border_blue"
+      android:padding="5sp"
+      android:gravity="center"
+      android:textSize="24sp"
+      android:layout_margin="20sp"
+      android:textStyle="bold"
+      android:layout_marginBottom="16dp"/>
 
   <TextView
       android:id="@+id/titleLabel"

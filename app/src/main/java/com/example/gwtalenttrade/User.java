@@ -1,5 +1,7 @@
 package com.example.gwtalenttrade;
 
+import java.util.Objects;
+
 public class User {
 
     String fullName;
@@ -59,5 +61,18 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(fullName, user.fullName) && Objects.equals(gwid, user.gwid) && Objects.equals(email, user.email) && Objects.equals(dob, user.dob) && Objects.equals(phone, user.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, gwid, email, dob, phone);
     }
 }

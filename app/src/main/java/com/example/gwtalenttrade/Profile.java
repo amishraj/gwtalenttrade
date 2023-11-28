@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +30,9 @@ public class Profile extends AppCompatActivity {
     private TextView textViewName, textViewGWID, textViewEmail, textViewDOB, textViewPhone;
     private DatabaseReference userReference;
     private RecyclerView recyclerViewMyPosts;
+    private RecyclerView recyclerViewMyRequests;
     private PosterAdapter postingsAdapter;
+    private MyRequestAdapter myRequestAdapter;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
 
@@ -40,7 +43,6 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         logoutBtn= findViewById(R.id.logoutBtn);
-
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,9 +61,18 @@ public class Profile extends AppCompatActivity {
         recyclerViewMyPosts.setLayoutManager(new LinearLayoutManager(this));
         postingsAdapter = new PosterAdapter(new ArrayList<>());
         recyclerViewMyPosts.setAdapter(postingsAdapter);
+        
+        //Intialize My requests recycler view
+        recyclerViewMyRequests = findViewById(R.id.recyclerViewMyRequests);
+        recyclerViewMyRequests.setLayoutManager(new LinearLayoutManager(this));
+        myRequestAdapter = new MyRequestAdapter(new ArrayList<>());
+        recyclerViewMyRequests.setAdapter(myRequestAdapter);
 
         // Fetch and display user's posts
         displayMyPosts();
+        
+        //fetch and display user's requests
+        displayMyRequests();
 
         // Initialize views
         textViewName = findViewById(R.id.textViewName);
@@ -103,10 +114,39 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    private void displayMyRequests() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("requests");
+            Query requestsQuery = databaseReference.orderByChild("requestedBy/email").equalTo(user.getEmail());
+            requestsQuery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<Request> myRequests = new ArrayList<>();
+                    // Iterate through the posts and add them to the adapter
+                    for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+                        Request request = requestSnapshot.getValue(Request.class);
+                        if (request != null) {
+                            myRequests.add(request);
+                        }
+                    }
+                    myRequestAdapter.setRequests(myRequests);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle database error
+                }
+            });
+
+
+        }
+
+    }
+
     private void displayMyPosts() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-
             // Query the database for user's posts
             Query postsQuery = databaseReference.orderByChild("postedBy").equalTo(user.getEmail());
             postsQuery.addValueEventListener(new ValueEventListener() {

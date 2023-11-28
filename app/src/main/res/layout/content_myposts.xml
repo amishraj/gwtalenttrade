@@ -12,16 +12,45 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/myListingsLayout"
         android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewMyListings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Listings"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMyPosts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/textViewMyListings"
             android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
+
+        <TextView
+            android:id="@+id/textViewMyRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerViewMyPosts"
+            android:text="My Requests"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMyRequests"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textViewMyRequests"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
 
         <Button
             android:id="@+id/logoutBtn"
@@ -29,7 +58,7 @@
             android:layout_height="wrap_content"
             android:text="Logout"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/recyclerViewMyPosts"
+            android:layout_below="@+id/recyclerViewMyRequests"
             android:layout_marginTop="16dp"/>
 
     </RelativeLayout>

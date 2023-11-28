@@ -73,6 +73,7 @@ public class createPost extends AppCompatActivity {
 
                 // Push the post object to the database
                 String postId = databaseReference.push().getKey(); // Get a unique key for the post
+                post.setId(postId);
                 databaseReference.child(postId).setValue(post);
 
                 Toast.makeText(createPost.this, "Post submitted successfully", Toast.LENGTH_SHORT).show();

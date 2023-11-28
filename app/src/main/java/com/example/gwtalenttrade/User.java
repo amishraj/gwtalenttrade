@@ -7,15 +7,18 @@ public class User {
     String email;
     String dob;
 
+    String phone;
+
     public User(){
 
     }
 
-    public User(String fullName, String gwid, String email, String dob) {
+    public User(String fullName, String gwid, String email, String dob, String phone) {
         this.fullName= fullName;
         this.gwid= gwid;
         this.email=email;
         this.dob=dob;
+        this.phone= phone;
     }
 
     public String getFullName() {
@@ -48,5 +51,13 @@ public class User {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

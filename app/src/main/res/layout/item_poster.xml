@@ -34,10 +34,22 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <!-- Contact Button -->
-    <Button
-        android:id="@+id/buttonContact"
+    <!-- Edit and Delete Buttons Stacked -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Request"/>
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"/>
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"/>
+    </LinearLayout>
 </LinearLayout>

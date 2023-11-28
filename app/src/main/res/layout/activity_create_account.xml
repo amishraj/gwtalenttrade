@@ -94,6 +94,29 @@
             android:inputType="textPersonName"/>
     </LinearLayout>
 
+    <!-- Phone Number -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_person"
+            />
+
+        <EditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone"/>
+    </LinearLayout>
+
+
     <!-- Password -->
     <LinearLayout
         android:layout_width="match_parent"

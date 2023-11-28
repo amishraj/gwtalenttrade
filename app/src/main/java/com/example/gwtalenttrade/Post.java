@@ -1,6 +1,7 @@
 package com.example.gwtalenttrade;
 
 public class Post {
+    private String postId;
     private String title;
     private String category;
     private String description;
@@ -59,4 +60,13 @@ public class Post {
     public void setPostedBy(String postedBy) {
         this.postedBy = postedBy;
     }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setId(String id){
+        this.postId=id;
+    }
+
 }

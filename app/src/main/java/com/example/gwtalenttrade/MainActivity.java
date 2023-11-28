@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +29,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logoutBtn;
     private TextView textViewExploreAll;
     private TextView textViewRecentPosts;
     FirebaseUser user;
     TextView nameUser;
+
+    ImageButton profileBtn;
 
     private RecyclerView recyclerView;
     private PostingsAdapter postingsAdapter;
@@ -45,21 +47,18 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        // Set layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Initialize the adapter
         postingsAdapter = new PostingsAdapter(new ArrayList<>());
         recyclerView.setAdapter(postingsAdapter);
 
-        // Initialize Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
         // Read the last 3 recent posts
         readRecentPosts();
 
-        logoutBtn= findViewById(R.id.logoutBtn);
+        profileBtn = findViewById(R.id.profileBtn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         nameUser= findViewById(R.id.nameUser);
         textViewExploreAll = findViewById(R.id.textViewExploreAll);
@@ -68,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         if(user==null){
             startActivity(new Intent(getApplicationContext(), firstPage.class));
             finish();
-        } else{
+        }
+        else{
             String userEmail = user.getEmail();
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
             Query query = userRef.orderByChild("email").equalTo(userEmail);
@@ -105,12 +105,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
+        profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), firstPage.class));
-                finish();
+                startActivity(new Intent(MainActivity.this, Profile.class));
             }
         });
 
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void readRecentPosts() {
         databaseReference.orderByChild("timestamp").limitToLast(3)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<Post> recentPosts = new ArrayList<>();

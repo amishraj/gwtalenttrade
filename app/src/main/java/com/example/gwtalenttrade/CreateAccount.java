@@ -42,6 +42,8 @@ public class CreateAccount extends AppCompatActivity {
     private EditText editTextPassword;
     private EditText editTextPassword2;
 
+    private EditText editTextPhoneNumber;
+
     String selectedDate;
 
     FirebaseAuth mAuth;
@@ -77,6 +79,7 @@ public class CreateAccount extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPassword2 = findViewById(R.id.editTextPassword2);
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +97,12 @@ public class CreateAccount extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 // Retrieve values from EditText fields
                 if(checkDataEntered()){
-                    String fullName, GWID, email, password, dob;
+                    String fullName, GWID, email, password, dob, phone;
                     fullName= String.valueOf(editTextFullName.getText());
                     GWID= String.valueOf(editTextGWID.getText());
                     email= String.valueOf(editTextEmail.getText());
                     password= String.valueOf(editTextPassword.getText());
+                    phone = String.valueOf(editTextPhoneNumber.getText());
                     dob= selectedDate;
 
                     mAuth.createUserWithEmailAndPassword(email, password)
@@ -115,7 +119,7 @@ public class CreateAccount extends AppCompatActivity {
 
                                         // Save additional details to the database
                                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-                                        User newUser = new User(fullName, GWID, email, dob); // Replace with your User model
+                                        User newUser = new User(fullName, GWID, email, dob, phone); // Replace with your User model
                                         userRef.setValue(newUser);
 
                                         FirebaseAuth.getInstance().signOut();

@@ -1,5 +1,6 @@
 package com.example.gwtalenttrade;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gwtalenttrade.databinding.ActivityListingsBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -66,7 +69,33 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), firstPage.class));
             finish();
         } else{
-            nameUser.setText(user.getEmail());
+            String userEmail = user.getEmail();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+            Query query = userRef.orderByChild("email").equalTo(userEmail);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // User found in the database
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            // Assuming you have a User class with a 'name' property
+                            User userData = snapshot.getValue(User.class);
+                            String userName = userData.getFullName();
+                            nameUser.setText(userName);
+                        }
+                    } else {
+                        // User not found in the database
+                        // Handle the case where user information is not available
+                        Toast.makeText(MainActivity.this, "User not found!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle database error
+                }
+            });
         }
 
         textViewExploreAll.setOnClickListener(new View.OnClickListener() {

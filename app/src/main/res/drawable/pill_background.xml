@@ -1,0 +1,18 @@
+<!-- pill_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Blue outline -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <stroke android:width="2dp" android:color="@color/blue"/>
+        </shape>
+    </item>
+
+    <!-- Inner card with white background -->
+    <item android:right="2dp" android:left="2dp" android:top="4dp" android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="#FFFFFF"/>
+        </shape>
+    </item>
+</layer-list>

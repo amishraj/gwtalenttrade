@@ -50,26 +50,38 @@
             android:layout_below="@id/editTextEmail"
             android:layout_marginTop="16dp"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-        <Button
-            android:id="@+id/btnLogin"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:layout_below="@id/editTextPassword"
-            android:layout_marginTop="16dp"/>
+            android:orientation="vertical"
+            android:id="@+id/loginLayout"
+            android:layout_below="@+id/editTextPassword"
+            >
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:layout_gravity="center"
+                android:layout_below="@id/progressBar"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/btnLogin"
+            android:gravity="center"
+            android:layout_below="@id/loginLayout"
             android:layout_marginTop="16dp">
 
             <TextView

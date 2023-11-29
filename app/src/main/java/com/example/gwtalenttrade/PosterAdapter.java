@@ -50,7 +50,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PostingVie
             descriptionTextView = itemView.findViewById(R.id.textViewDescription);
             categoryTextView = itemView.findViewById(R.id.textViewCategory);
             requestsCountLabel= itemView.findViewById(R.id.requestsCountLabel);
-            btnEdit = itemView.findViewById(R.id.buttonEdit);
             btnDelete= itemView.findViewById(R.id.buttonDelete);
             btnManage= itemView.findViewById(R.id.buttonManage);
         }
@@ -72,13 +71,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PostingVie
         holder.categoryTextView.setText(post.getCategory());
         
         getNumberOfRequests(post.getPostId(),holder.requestsCountLabel);
-
-        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Edit post: " + post.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override

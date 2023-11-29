@@ -2,6 +2,7 @@ package com.example.gwtalenttrade;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +45,56 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CardView cardViewTutoring = findViewById(R.id.cardViewTutoring);
+        CardView cardViewHomeGoods= findViewById(R.id.cardViewHomeGoods);
+        CardView cardViewFood = findViewById(R.id.cardViewFood);
+        CardView cardViewTransport = findViewById(R.id.cardViewTransport);
+        CardView cardViewFitness= findViewById(R.id.cardViewFitness);
+        CardView cardViewMisc = findViewById(R.id.cardViewMisc);
+
+        cardViewTutoring.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Tutoring Services");
+            }
+        });
+
+        cardViewHomeGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Homemade Goods and Crafts");
+            }
+        });
+
+        cardViewFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Meal Plans and Food Services");
+            }
+        });
+
+        cardViewTransport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Carpooling and Transportation");
+            }
+        });
+
+        cardViewFitness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Sports and Fitness Services");
+            }
+        });
+
+        cardViewMisc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyFilter("Miscellaneous Services");
+            }
+        });
+
 
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -112,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void applyFilter(String category) {
+        Intent intent = new Intent(MainActivity.this, Listings.class);
+        intent.putExtra("filterCategory", category);
+        startActivity(intent);
     }
 
     private void readRecentPosts() {

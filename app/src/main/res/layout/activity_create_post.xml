@@ -60,7 +60,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:hint="Enter description"/>
+      android:hint="Enter description: hourly rate, time for completion etc."/>
 
   <TextView
       android:id="@+id/contactLabel"

@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import android.view.View;
+import android.widget.Button;
+
 import com.example.gwtalenttrade.databinding.ActivityListingsBinding;
 
 import java.util.ArrayList;
@@ -28,12 +30,32 @@ private ActivityListingsBinding binding;
     private RecyclerView recyclerView;
     private PostingsAdapter postingsAdapter;
     private DatabaseReference databaseReference;
+    private Button btnTutoring, homemadeGoods, btnMealPlans, btnTransport, btnSports, btnMisc, btnReset;
+
+    private String filterCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityListingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        btnTutoring = findViewById(R.id.btnTutoring);
+        homemadeGoods = findViewById(R.id.homemadeGoods);
+        btnMealPlans = findViewById(R.id.btnMealPlans);
+        btnTransport = findViewById(R.id.btnTransport);
+        btnSports = findViewById(R.id.btnSports);
+        btnMisc = findViewById(R.id.btnMisc);
+        btnReset= findViewById(R.id.btnReset);
+
+        btnTutoring.setOnClickListener(v -> applyFilter("Tutoring Services"));
+        homemadeGoods.setOnClickListener(v -> applyFilter("Homemade Goods and Crafts"));
+        btnMealPlans.setOnClickListener(v -> applyFilter("Meal Plans and Food Services"));
+        btnTransport.setOnClickListener(v -> applyFilter("Carpooling and Transportation"));
+        btnSports.setOnClickListener(v -> applyFilter("Sports and Fitness Services"));
+        btnMisc.setOnClickListener(v -> applyFilter("Miscellaneous Services"));
+        btnReset.setOnClickListener(v -> resetFilters());
+
         recyclerView = findViewById(R.id.recyclerView);
         databaseReference = FirebaseDatabase.getInstance().getReference("posts");
 
@@ -65,17 +87,45 @@ private ActivityListingsBinding binding;
         });
 
         readDataFromDatabase();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("filterCategory")) {
+            filterCategory = intent.getStringExtra("filterCategory");
+            if(filterCategory!=null){
+                applyFilter(filterCategory);
+            }
+        }
     }
 
-    // Method to get data
-    private List<Post> getPostings() {
-        List<Post> posts = new ArrayList<>();
+    private void applyFilter(String category) {
+        databaseReference.orderByChild("category").equalTo(category)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Post> posts = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            try {
+                                Post post = snapshot.getValue(Post.class);
+                                posts.add(post);
+                            } catch (Exception e) {
+                                System.err.println("Error parsing Posting from DataSnapshot: " + e.getMessage());
+                            }
+                        }
+                        // Update the adapter with the filtered data
+                        postingsAdapter.setPostings(posts);
+                    }
 
-        //posts.add(new Post("Job Title 1", "Description for Job 1", "Category 1"));
-        //posts.add(new Post("Job Title 2", "Description for Job 2", "Category 2"));
-        // Add more postings as needed
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle errors, if any
+                        Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });
+    }
 
-        return posts;
+    private void resetFilters() {
+        readDataFromDatabase();
     }
 
     // Method to read data from Firebase Database

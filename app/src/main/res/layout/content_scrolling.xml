@@ -15,6 +15,77 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Pill-shaped Filters -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/btnTutoring"
+                style="@style/FilterButton"
+                android:text="Tutoring"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+            <Button
+                android:id="@+id/homemadeGoods"
+                style="@style/FilterButton"
+                android:text="Homemade Goods &amp; Crafts"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/btnMealPlans"
+                style="@style/FilterButton"
+                android:text="Meal Plans &amp; Food"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+            <Button
+                android:id="@+id/btnTransport"
+                style="@style/FilterButton"
+                android:text="Carpooling &amp; Transport"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/btnSports"
+                style="@style/FilterButton"
+                android:text="Sports &amp; Fitness"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+            <Button
+                android:id="@+id/btnMisc"
+                style="@style/FilterButton"
+                android:text="Miscellaneous"
+                android:background="@drawable/pill_background"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/btnReset"
+                style="@style/FilterButton"
+                android:text="Reset All"
+                android:background="@drawable/pill_background"
+                />
+
+        </LinearLayout>
+
         <!-- RecyclerView for Postings -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

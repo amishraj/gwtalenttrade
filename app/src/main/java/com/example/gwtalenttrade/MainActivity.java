@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.appcompat.widget.SearchView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,11 +43,32 @@ public class MainActivity extends AppCompatActivity {
     private PostingsAdapter postingsAdapter;
     private DatabaseReference databaseReference;
 
+    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        searchView = findViewById(R.id.searchViewServices);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle search query submission
+                Intent intent = new Intent(MainActivity.this, Listings.class);
+                intent.putExtra("searchQuery", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle search query text change
+                // You can use this to implement real-time search suggestions or filtering
+                return true;
+            }
+        });
         CardView cardViewTutoring = findViewById(R.id.cardViewTutoring);
         CardView cardViewHomeGoods= findViewById(R.id.cardViewHomeGoods);
         CardView cardViewFood = findViewById(R.id.cardViewFood);

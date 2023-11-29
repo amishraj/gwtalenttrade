@@ -80,8 +80,6 @@ private ActivityListingsBinding binding;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Create your own post here!", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 startActivity(new Intent(Listings.this, createPost.class));
             }
         });
@@ -94,6 +92,13 @@ private ActivityListingsBinding binding;
             if(filterCategory!=null){
                 applyFilter(filterCategory);
             }
+        }
+
+        if (intent != null && intent.hasExtra("searchQuery")) {
+            String searchQuery = intent.getStringExtra("searchQuery");
+
+            // Use the searchQuery to filter your listings
+            filterListingsBySearchQuery(searchQuery);
         }
     }
 
@@ -126,6 +131,52 @@ private ActivityListingsBinding binding;
 
     private void resetFilters() {
         readDataFromDatabase();
+    }
+
+    private void filterListingsBySearchQuery(String searchQuery) {
+        // Convert the search query to lowercase for case-insensitive matching
+        String lowercaseQuery = searchQuery.toLowerCase();
+
+        // Adding a value listener to the database reference to perform search
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Checking if the value exists
+                if (snapshot.exists()) {
+                    List<Post> filteredPosts = new ArrayList<>();
+
+                    // Looping through the values
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        try {
+                            Post post = dataSnapshot.getValue(Post.class);
+
+                            // Checking if the search query matches the post title, description, or category
+                            if (post != null &&
+                                    (post.getTitle().toLowerCase().contains(lowercaseQuery) ||
+                                            post.getDescription().toLowerCase().contains(lowercaseQuery) ||
+                                            post.getCategory().toLowerCase().contains(lowercaseQuery))) {
+                                filteredPosts.add(post);
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Error parsing Posting from DataSnapshot: " + e.getMessage());
+                        }
+                    }
+
+                    // Update the adapter with the filtered data
+                    postingsAdapter.setPostings(filteredPosts);
+                } else {
+                    Snackbar.make(recyclerView, "Data does not exist", Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle errors, if any
+                Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     // Method to read data from Firebase Database

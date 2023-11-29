@@ -36,6 +36,10 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
         notifyDataSetChanged(); // Notify the adapter that the data has changed
     }
 
+    public List<Post> getPostings() {
+        return this.posts;
+    }
+
 
     // ViewHolder class
     public static class PostingViewHolder extends RecyclerView.ViewHolder {

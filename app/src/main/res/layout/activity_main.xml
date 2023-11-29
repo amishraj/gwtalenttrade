@@ -34,13 +34,18 @@
         android:textSize="20sp"
         android:textStyle="italic"/>
 
-    <EditText
-        android:id="@+id/editTextSearch"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewServices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome"
         android:layout_marginTop="15dp"
-        android:hint="Search services" />
+        android:background="@drawable/pill_background"
+        android:iconifiedByDefault="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:queryHint="Search services" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +53,7 @@
         android:id="@+id/homePagePosts"
         android:layout_marginTop="20sp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@id/editTextSearch">
+        android:layout_below="@id/searchViewServices">
 
         <!-- Recent Listings Tab -->
         <TextView

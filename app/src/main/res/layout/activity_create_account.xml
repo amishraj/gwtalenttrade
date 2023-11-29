@@ -39,6 +39,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_person"
+            android:layout_marginEnd="8sp"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
             />
 
         <EditText
@@ -60,7 +63,10 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/gwid"
+            android:layout_marginEnd="8sp"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
             />
 
         <EditText
@@ -82,7 +88,10 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/email"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
+            android:layout_marginEnd="8sp"
             />
 
         <EditText
@@ -104,7 +113,10 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/phone"
+            android:layout_marginEnd="8sp"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
             />
 
         <EditText
@@ -127,7 +139,10 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/password"
+            android:layout_marginEnd="8sp"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
             />
 
         <EditText
@@ -149,7 +164,10 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/password"
+            android:layout_marginEnd="8sp"
+            android:padding="4sp"
+            android:background="@drawable/circle_background2"
             />
 
         <EditText
@@ -189,21 +207,28 @@
             android:textAllCaps="false" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    <!-- Button for completing signup -->
-    <Button
-        android:id="@+id/completeSignup"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Complete Signup"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="16dp"/>
+        android:orientation="vertical"
+        >
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <!-- Button for completing signup -->
+        <Button
+            android:id="@+id/completeSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Complete Signup"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
 
     <!-- Text and link for already having an account -->
     <LinearLayout

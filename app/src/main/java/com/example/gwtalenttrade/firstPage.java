@@ -18,7 +18,6 @@ public class firstPage extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         System.out.println(currentUser);
         if(currentUser != null){
@@ -39,8 +38,6 @@ public class firstPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(firstPage.this, SignInActivity.class);
-
-                // Start the new activity
                 startActivity(intent);
             }
         });
@@ -49,8 +46,6 @@ public class firstPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(firstPage.this, CreateAccount.class);
-
-                // Start the new activity
                 startActivity(intent);
             }
         });

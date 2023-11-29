@@ -22,16 +22,14 @@ import java.util.List;
 
 public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.RequestViewHolder> {
 
-    private List<Request> requests; // Posting is a custom data class
+    private List<Request> requests;
 
-    // Constructor to set the data
     public MyRequestAdapter(List<Request> requests) {
         this.requests = requests;
     }
-    // Setter method for updating data
     public void setRequests(List<Request> requests) {
         this.requests = requests;
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
+        notifyDataSetChanged();
     }
 
     // ViewHolder class
@@ -75,21 +73,15 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
                 String requestStatus = request.getStatus();
 
                 if ("open".equals(requestStatus)) {
-                    // Request is still pending
                     Toast.makeText(v.getContext(), "The request is still pending.", Toast.LENGTH_SHORT).show();
                 } else if ("accepted".equals(requestStatus)) {
-                    // Request is accepted, get the contact method from the post object
                     String contactMethod = request.getPost().getContactMethod();
 
-                    // Show a popup based on the contact method
                     if ("Email".equals(contactMethod)) {
-                        // Show a popup with the poster's email
                         showContactPopup(v.getContext(), "Email", request.getPostedBy().getEmail());
                     } else if ("Phone".equals(contactMethod)) {
-                        // Show a popup with the poster's phone number
                         showContactPopup(v.getContext(), "Phone", request.getPostedBy().getPhone());
                     } else if ("Both".equals(contactMethod)) {
-                        // Show a popup with both options
                         showContactPopup(v.getContext(), "Email", request.getPostedBy().getEmail(), "Phone", request.getPostedBy().getPhone());
                     }
                 }
@@ -99,25 +91,20 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         holder.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            // Assuming request.getId() returns the unique identifier of the request in the database
             String requestId = request.getId();
 
-            // Get a reference to the "requests" node in the database
             DatabaseReference requestsReference = FirebaseDatabase.getInstance().getReference("requests");
 
-            // Remove the request from the database
             requestsReference.child(requestId).removeValue()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            // Request declined successfully
                             Toast.makeText(v.getContext(), "Request canceled", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Handle the failure to decline the request
                             Toast.makeText(v.getContext(), "Failed to cancel request", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -132,16 +119,13 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
     }
 
     private void showContactPopup(Context context, String method1, String value1, String method2, String value2) {
-        // Use AlertDialog to display contact options
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Contact Options");
 
-        // Inflate the layout for the dialog
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_contact_options, null);
         builder.setView(dialogView);
 
-        // Set the values in the dialog
         TextView textViewMethod1 = dialogView.findViewById(R.id.textViewMethod1);
         TextView textViewValue1 = dialogView.findViewById(R.id.textViewValue1);
         TextView textViewMethod2 = dialogView.findViewById(R.id.textViewMethod2);
@@ -155,7 +139,6 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Handle OK button click if needed
                 dialog.dismiss();
             }
         });
@@ -166,16 +149,13 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
     }
 
     private void showContactPopup(Context context, String method, String value) {
-        // Use AlertDialog to display contact option
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Contact Option");
 
-        // Inflate the layout for the dialog
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_contact_option, null);
         builder.setView(dialogView);
 
-        // Set the values in the dialog
         TextView textViewMethod = dialogView.findViewById(R.id.textViewMethod);
         TextView textViewValue = dialogView.findViewById(R.id.textViewValue);
 
@@ -185,7 +165,6 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Handle OK button click if needed
                 dialog.dismiss();
             }
         });

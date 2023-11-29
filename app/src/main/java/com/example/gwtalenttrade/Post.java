@@ -9,7 +9,6 @@ public class Post {
 
     private String postedBy;
 
-    // Empty constructor for Firebase
     public Post() {
     }
 

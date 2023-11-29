@@ -23,25 +23,21 @@ import java.util.List;
 
 public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.PostingViewHolder> {
 
-    private List<Post> posts; // Posting is a custom data class
+    private List<Post> posts;
     private User poster;
 
-    // Constructor to set the data
     public PostingsAdapter(List<Post> posts) {
         this.posts = posts;
     }
-    // Setter method for updating data
     public void setPostings(List<Post> posts) {
         this.posts = posts;
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
+        notifyDataSetChanged();
     }
 
     public List<Post> getPostings() {
         return this.posts;
     }
 
-
-    // ViewHolder class
     public static class PostingViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView, descriptionTextView, categoryTextView;
         public Button contactButton;
@@ -70,46 +66,32 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
         holder.descriptionTextView.setText(post.getDescription());
         holder.categoryTextView.setText(post.getCategory());
 
-        // Set OnClickListener for the Contact Button
         holder.contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // REQUEST button click
                 Request request = new Request();
-                //get current user
-
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
                 if (currentUser != null) {
-                    // Initialize the Realtime Database reference
                     DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
-
-                    // Read from the database
                     userReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // Retrieve user data from the snapshot
                             User user = dataSnapshot.getValue(User.class);
-
-                            // Check if the user data is not null
                             if (user != null) {
-                                // Set user data to the views
                                 request.setRequestedBy(user);
-                                request.setPost(post);  // Assuming post is the current post being viewed
+                                request.setPost(post);
                                 DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
 
-                                // Query the database for the user based on email
                                 Query userQuery = usersReference.orderByChild("email").equalTo(post.getPostedBy());
                                 userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        // Assuming there's only one user with the given email
                                         for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                             User user = userSnapshot.getValue(User.class);
 
-                                            // Check if the user data is not null
                                             if (user != null) {
-                                                request.setPostedBy(user);  // Assuming getUser() returns the user who posted the post
+                                                request.setPostedBy(user);
                                                 if(user.equals(request.getRequestedBy())){
                                                     Toast.makeText(v.getContext(), "Cannot request your own service: " + post.getTitle(), Toast.LENGTH_SHORT).show();
                                                     return;
@@ -117,7 +99,7 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
                                                 request.setStatus("open");
 
                                                 DatabaseReference requestsReference = FirebaseDatabase.getInstance().getReference("requests");
-                                                String requestId = requestsReference.push().getKey(); // Get a unique key for the request
+                                                String requestId = requestsReference.push().getKey();
                                                 request.setId(requestId);
                                                 requestsReference.child(requestId).setValue(request);
 
@@ -128,7 +110,6 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
-                                        // Handle database error
                                     }
                                 });
                             }
@@ -148,16 +129,12 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
     private void getUser(Post post) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
 
-        // Query the database for the user based on email
         Query userQuery = usersReference.orderByChild("email").equalTo(post.getPostedBy());
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Assuming there's only one user with the given email
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
-
-                    // Check if the user data is not null
                     if (user != null) {
                        poster = user;
                     }
@@ -166,7 +143,6 @@ public class PostingsAdapter extends RecyclerView.Adapter<PostingsAdapter.Postin
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle database error
             }
         });
     }

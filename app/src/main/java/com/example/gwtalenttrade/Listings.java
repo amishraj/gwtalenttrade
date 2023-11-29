@@ -59,17 +59,11 @@ private ActivityListingsBinding binding;
         recyclerView = findViewById(R.id.recyclerView);
         databaseReference = FirebaseDatabase.getInstance().getReference("posts");
 
-        // Set layout manager (HorizontalLinearLayoutManager for horizontal scrolling)
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Set up data (Replace with your actual data)
-        //List<Posting> postings = getPostings(); // Implement this method to fetch your data
-        postingsAdapter = new PostingsAdapter(new ArrayList<>()); // Initialize with empty list
+        postingsAdapter = new PostingsAdapter(new ArrayList<>());
         recyclerView.setAdapter(postingsAdapter);
-
-        //postingsAdapter = new PostingsAdapter(postings);
-       // recyclerView.setAdapter(postingsAdapter);
 
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
@@ -96,8 +90,6 @@ private ActivityListingsBinding binding;
 
         if (intent != null && intent.hasExtra("searchQuery")) {
             String searchQuery = intent.getStringExtra("searchQuery");
-
-            // Use the searchQuery to filter your listings
             filterListingsBySearchQuery(searchQuery);
         }
     }
@@ -116,13 +108,11 @@ private ActivityListingsBinding binding;
                                 System.err.println("Error parsing Posting from DataSnapshot: " + e.getMessage());
                             }
                         }
-                        // Update the adapter with the filtered data
                         postingsAdapter.setPostings(posts);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        // Handle errors, if any
                         Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -134,23 +124,17 @@ private ActivityListingsBinding binding;
     }
 
     private void filterListingsBySearchQuery(String searchQuery) {
-        // Convert the search query to lowercase for case-insensitive matching
         String lowercaseQuery = searchQuery.toLowerCase();
 
-        // Adding a value listener to the database reference to perform search
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                // Checking if the value exists
                 if (snapshot.exists()) {
                     List<Post> filteredPosts = new ArrayList<>();
 
-                    // Looping through the values
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         try {
                             Post post = dataSnapshot.getValue(Post.class);
-
-                            // Checking if the search query matches the post title, description, or category
                             if (post != null &&
                                     (post.getTitle().toLowerCase().contains(lowercaseQuery) ||
                                             post.getDescription().toLowerCase().contains(lowercaseQuery) ||
@@ -162,7 +146,6 @@ private ActivityListingsBinding binding;
                         }
                     }
 
-                    // Update the adapter with the filtered data
                     postingsAdapter.setPostings(filteredPosts);
                 } else {
                     Snackbar.make(recyclerView, "Data does not exist", Snackbar.LENGTH_SHORT)
@@ -172,14 +155,12 @@ private ActivityListingsBinding binding;
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Handle errors, if any
                 Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
     }
 
-    // Method to read data from Firebase Database
     private void readDataFromDatabase() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,13 +174,11 @@ private ActivityListingsBinding binding;
                         System.err.println("Error parsing Posting from DataSnapshot: " + e.getMessage());
                     }
                 }
-                // Update the adapter with the new data
                 postingsAdapter.setPostings(posts);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle errors, if any
                 Snackbar.make(recyclerView, "Error reading data from Firebase", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle search query submission
                 Intent intent = new Intent(MainActivity.this, Listings.class);
                 intent.putExtra("searchQuery", query);
                 startActivity(intent);
@@ -64,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle search query text change
-                // You can use this to implement real-time search suggestions or filtering
                 return true;
             }
         });
@@ -129,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
-        // Read the last 3 recent posts
         readRecentPosts();
 
         profileBtn = findViewById(R.id.profileBtn);
@@ -151,23 +147,18 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // User found in the database
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            // Assuming you have a User class with a 'name' property
                             User userData = snapshot.getValue(User.class);
                             String userName = userData.getFullName();
                             nameUser.setText(userName);
                         }
                     } else {
-                        // User not found in the database
-                        // Handle the case where user information is not available
                         Toast.makeText(MainActivity.this, "User not found!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle database error
                 }
             });
         }
@@ -205,20 +196,16 @@ public class MainActivity extends AppCompatActivity {
                                 Post post = snapshot.getValue(Post.class);
                                 recentPosts.add(post);
                             } catch (Exception e) {
-                                // Handle parsing exception if needed
                             }
                         }
 
-                        // Reverse the list to show the most recent posts first
                         Collections.reverse(recentPosts);
 
-                        // Update the adapter with the recent posts
                         postingsAdapter.setPostings(recentPosts);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        // Handle errors, if any
                     }
                 });
     }

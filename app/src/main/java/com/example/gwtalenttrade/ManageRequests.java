@@ -64,7 +64,6 @@ public class ManageRequests extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle database error
                 Log.e("ManageRequests", "Failed to fetch requests: " + databaseError.getMessage());
             }
         });

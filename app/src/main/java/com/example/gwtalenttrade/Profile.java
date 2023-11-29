@@ -52,29 +52,22 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("posts");
 
-        // Initialize RecyclerView
         recyclerViewMyPosts = findViewById(R.id.recyclerViewMyPosts);
         recyclerViewMyPosts.setLayoutManager(new LinearLayoutManager(this));
         postingsAdapter = new PosterAdapter(new ArrayList<>());
         recyclerViewMyPosts.setAdapter(postingsAdapter);
         
-        //Intialize My requests recycler view
         recyclerViewMyRequests = findViewById(R.id.recyclerViewMyRequests);
         recyclerViewMyRequests.setLayoutManager(new LinearLayoutManager(this));
         myRequestAdapter = new MyRequestAdapter(new ArrayList<>());
         recyclerViewMyRequests.setAdapter(myRequestAdapter);
 
-        // Fetch and display user's posts
         displayMyPosts();
-        
-        //fetch and display user's requests
         displayMyRequests();
 
-        // Initialize views
         textViewName = findViewById(R.id.textViewName);
         textViewGWID = findViewById(R.id.textViewGWID);
         textViewEmail = findViewById(R.id.textViewEmail);
@@ -84,19 +77,12 @@ public class Profile extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
-            // Initialize the Realtime Database reference
             userReference = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
-
-            // Read from the database
             userReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    // Retrieve user data from the snapshot
                     User user = dataSnapshot.getValue(User.class);
-
-                    // Check if the user data is not null
                     if (user != null) {
-                        // Set user data to the views
                         textViewName.setText(user.getFullName());
                         textViewGWID.setText("GWID: " + user.getGwid());
                         textViewEmail.setText("Email: " + user.getEmail());
@@ -123,7 +109,6 @@ public class Profile extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     List<Request> myRequests = new ArrayList<>();
-                    // Iterate through the posts and add them to the adapter
                     for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
                         Request request = requestSnapshot.getValue(Request.class);
                         if (request != null) {
@@ -135,7 +120,6 @@ public class Profile extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Handle database error
                 }
             });
 
@@ -147,13 +131,11 @@ public class Profile extends AppCompatActivity {
     private void displayMyPosts() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            // Query the database for user's posts
             Query postsQuery = databaseReference.orderByChild("postedBy").equalTo(user.getEmail());
             postsQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     List<Post> myPosts = new ArrayList<>();
-                    // Iterate through the posts and add them to the adapter
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Post post = postSnapshot.getValue(Post.class);
                         if (post != null) {
@@ -165,7 +147,6 @@ public class Profile extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Handle database error
                 }
             });
         }

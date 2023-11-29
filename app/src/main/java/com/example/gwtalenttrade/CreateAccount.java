@@ -57,7 +57,6 @@ public class CreateAccount extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         System.out.println(currentUser);
         if(currentUser != null){
@@ -89,8 +88,6 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateAccount.this, firstPage.class);
-
-                // Start the new activity
                 startActivity(intent);
             }
         });
@@ -98,7 +95,6 @@ public class CreateAccount extends AppCompatActivity {
         completeSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Retrieve values from EditText fields
                 if(checkDataEntered()){
                     progressBar.setVisibility(View.VISIBLE);
                     String fullName, GWID, email, password, dob, phone;
@@ -118,10 +114,8 @@ public class CreateAccount extends AppCompatActivity {
                                         Toast.makeText(CreateAccount.this, "Account Created!",
                                                 Toast.LENGTH_SHORT).show();
 
-                                        // Get the authenticated user
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                                        // Save additional details to the database
                                         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
                                         User newUser = new User(fullName, GWID, email, dob, phone); // Replace with your User model
                                         userRef.setValue(newUser);
@@ -131,7 +125,6 @@ public class CreateAccount extends AppCompatActivity {
                                         startActivity(new Intent(CreateAccount.this, firstPage.class));
                                         finish();
                                     } else {
-                                        // If sign in fails, display a message to the user.
                                         Toast.makeText(CreateAccount.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
@@ -142,40 +135,26 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
 
-
-        // on below line we are adding click listener for our pick date button
         pickDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on below line we are getting
-                // the instance of our calendar.
                 final Calendar c = Calendar.getInstance();
-
-                // on below line we are getting
-                // our day, month and year.
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
-                // on below line we are creating a variable for date picker dialog.
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        // on below line we are passing context.
                         CreateAccount.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                // on below line we are setting date to our text view.
                                 selectedDateTV.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                                 selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
 
                             }
                         },
-                        // on below line we are passing year,
-                        // month and day for selected date in our date picker.
                         year, month, day);
-                // at last we are calling show to
-                // display our date picker dialog.
                 datePickerDialog.show();
             }
         });
@@ -232,7 +211,6 @@ public class CreateAccount extends AppCompatActivity {
 
     private boolean isEmail(EditText editText) {
         String email = editText.getText().toString().trim();
-        // checking for valid email format
         String emailPattern = "[a-zA-Z0-9._-]+@gwu.edu";
 
         if (!email.matches(emailPattern)) {

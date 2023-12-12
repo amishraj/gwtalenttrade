@@ -54,11 +54,12 @@ public class CreateAccount extends AppCompatActivity {
 
     ProgressBar progressBar;
 
+    // Check current user status on app start
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        System.out.println(currentUser);
+        // Redirect to MainActivity if user is already logged in
         if(currentUser != null){
             startActivity(new Intent(CreateAccount.this, MainActivity.class));
             finish();
@@ -71,6 +72,7 @@ public class CreateAccount extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
 
+        // Initializing UI elements
         pickDateBtn = findViewById(R.id.idBtnPickDate);
         completeSignup = findViewById(R.id.completeSignup);
         loginBtn = findViewById(R.id.goToLogin);
@@ -84,19 +86,26 @@ public class CreateAccount extends AppCompatActivity {
         editTextPassword2 = findViewById(R.id.editTextPassword2);
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
 
+        // Listener for login button
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //navigate to the first page if user wants to login
                 Intent intent = new Intent(CreateAccount.this, firstPage.class);
                 startActivity(intent);
             }
         });
 
+        // Listener for sign up button
         completeSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //if all constraints have been checked and the data is properly formatted
                 if(checkDataEntered()){
+                    //make the spinner visible
                     progressBar.setVisibility(View.VISIBLE);
+
+                    //collect user input
                     String fullName, GWID, email, password, dob, phone;
                     fullName= String.valueOf(editTextFullName.getText());
                     GWID= String.valueOf(editTextGWID.getText());
@@ -105,12 +114,14 @@ public class CreateAccount extends AppCompatActivity {
                     phone = String.valueOf(editTextPhoneNumber.getText());
                     dob= selectedDate;
 
+                    // Create user account with Firebase Authentication
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
+                                        //success case
                                         Toast.makeText(CreateAccount.this, "Account Created!",
                                                 Toast.LENGTH_SHORT).show();
 
@@ -120,11 +131,13 @@ public class CreateAccount extends AppCompatActivity {
                                         User newUser = new User(fullName, GWID, email, dob, phone); // Replace with your User model
                                         userRef.setValue(newUser);
 
+                                        //user created, now let the user navigate back to the first page in order to login again
                                         FirebaseAuth.getInstance().signOut();
 
                                         startActivity(new Intent(CreateAccount.this, firstPage.class));
                                         finish();
                                     } else {
+                                        //error handling
                                         Toast.makeText(CreateAccount.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
@@ -135,14 +148,18 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
 
+        //method to handle date picker
         pickDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar c = Calendar.getInstance();
+
+                //fetch year month and day values
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
+                //show the date picker dialog and set the recorded values correctly on the textview that shows the selected date
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         CreateAccount.this,
                         new DatePickerDialog.OnDateSetListener() {
@@ -160,7 +177,10 @@ public class CreateAccount extends AppCompatActivity {
         });
     }
 
+    // Validate user input
     private boolean checkDataEntered() {
+        // Check if input fields are valid
+        // Various validations: empty fields, valid GWID, valid email, valid phone number, and date
         if (isEmpty(editTextFullName)) {
             Toast t = Toast.makeText(this, "You must enter full name to register!", Toast.LENGTH_SHORT);
             t.show();
@@ -209,6 +229,7 @@ public class CreateAccount extends AppCompatActivity {
         return true;
     }
 
+    // Check if email is valid
     private boolean isEmail(EditText editText) {
         String email = editText.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@gwu.edu";
@@ -220,11 +241,13 @@ public class CreateAccount extends AppCompatActivity {
         return true;
     }
 
+    // Check if field is empty
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
     }
 
+    // Validate GWID format
     private boolean isValidGWID(EditText editText) {
         String gwid = editText.getText().toString().trim();
         String gwidPattern = "[gG]\\d{8}";
@@ -236,6 +259,7 @@ public class CreateAccount extends AppCompatActivity {
         return true;
     }
 
+    // Validate selected date
     private boolean isValidDate(String selectedDate) {
         if (TextUtils.isEmpty(selectedDate)) {
             return false;
@@ -256,6 +280,7 @@ public class CreateAccount extends AppCompatActivity {
         }
     }
 
+    // Validate phone number format
     private boolean isValidPhoneNumber(EditText editText) {
         String phoneNumber = editText.getText().toString().trim();
         String phonePattern = "\\d{10}";

@@ -2,6 +2,8 @@ package com.example.gwtalenttrade;
 
 import java.util.Objects;
 
+//User POJO class with necessary properties, constructor, as well as getters & setters
+// hashcode and equals implemented to allow comparison between user objects
 public class User {
 
     String fullName;

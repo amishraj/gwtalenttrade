@@ -1,5 +1,7 @@
 package com.example.gwtalenttrade;
 
+//Request POJO class to denote a request being made, with private properties, constructors, and getters and setters
+//toString method included for debugging purposes
 public class Request {
 
     private String id;

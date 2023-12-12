@@ -22,23 +22,29 @@ import java.util.List;
 
 public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.RequestViewHolder> {
 
+    // List to hold request data
     private List<Request> requests;
 
+    // Constructor
     public MyRequestAdapter(List<Request> requests) {
         this.requests = requests;
     }
+
+    // Update requests list and notify adapte
     public void setRequests(List<Request> requests) {
         this.requests = requests;
         notifyDataSetChanged();
     }
 
-    // ViewHolder class
+    // ViewHolder class for request items
     public static class RequestViewHolder extends RecyclerView.ViewHolder {
+        // UI components for displaying request information
         public TextView textViewPostTitle, textViewPostDescription, textViewPostCategory, textViewRequestedBy, textViewRequestStatus;
         public Button btnContact, btnCancel;
 
         public RequestViewHolder(View itemView) {
             super(itemView);
+            // Initialize UI components
             textViewPostTitle = itemView.findViewById(R.id.textViewPostTitle);
             textViewPostDescription = itemView.findViewById(R.id.textViewPostDescription);
             textViewPostCategory = itemView.findViewById(R.id.textViewPostCategory);
@@ -50,6 +56,7 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         }
     }
 
+    // Inflates the item layout and creates the ViewHolder
     @NonNull
     @Override
     public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -58,18 +65,22 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         return new RequestViewHolder(view);
     }
 
+    // Binds data to each item in the RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
         Request request = requests.get(position);
+        // Set request details in ViewHolder
         holder.textViewPostTitle.setText(request.getPost().getTitle());
         holder.textViewPostDescription.setText(request.getPost().getDescription());
         holder.textViewPostCategory.setText(request.getPost().getCategory());
         holder.textViewRequestedBy.setText(request.getRequestedBy().fullName+" "+request.getRequestedBy().email);
         holder.textViewRequestStatus.setText(request.getStatus().toUpperCase());
 
+        // Set onClickListener for contact button
         holder.btnContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Logic to handle revealing contact details based on request status
                 String requestStatus = request.getStatus();
 
                 if ("open".equals(requestStatus)) {
@@ -88,9 +99,11 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
             }
         });
 
+        // Set onClickListener for cancel button
         holder.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Logic to remove a request from Firebase database
             String requestId = request.getId();
 
             DatabaseReference requestsReference = FirebaseDatabase.getInstance().getReference("requests");
@@ -113,12 +126,15 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
 
     }
 
+    // Returns the total number of items in the list
     @Override
     public int getItemCount() {
         return requests.size();
     }
 
+    // Method to display contact options in a popup dialog
     private void showContactPopup(Context context, String method1, String value1, String method2, String value2) {
+        // Create and show a dialog with two contact options
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Contact Options");
 
@@ -148,7 +164,9 @@ public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.Requ
         alertDialog.show();
     }
 
+    // Overloaded method for a single contact option
     private void showContactPopup(Context context, String method, String value) {
+        // Create and show a dialog with one contact option
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Contact Option");
 

@@ -1,5 +1,6 @@
 package com.example.gwtalenttrade;
 
+//Post POJO class complete with constructors, private properties and getters & setters
 public class Post {
     private String postId;
     private String title;
